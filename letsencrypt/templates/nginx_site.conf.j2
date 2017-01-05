@@ -4,6 +4,8 @@ server {
   listen [::]:80;
   server_name {{item.domains | join(" ")}};
   client_max_body_size {% if item.client_max_body_size is defined %}{{item.client_max_body_size}}{% else %}{{nginx_default_client_max_body_size}}{% endif %};
+  access_log /var/log/nginx/{{item.name}}/access.log {{nginx_access_log_format}};
+  error_log /var/log/nginx/{{item.name}}/error.log;
 {% if item.letsencrypt is defined and item.letsencrypt %}
   location /.well-known/acme-challenge {
     alias {{letsencrypt_webroot_path}}/.well-known/acme-challenge;

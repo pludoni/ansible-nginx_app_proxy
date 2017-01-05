@@ -1,7 +1,7 @@
 routings: []
 letsencrypt_user: 'letsencrypt'
 letsencrypt_webroot_path: '/home/{{letsencrypt_user}}/webroot'
-letsencrypt_email: 'admin@pludoni.de'
+letsencrypt_email: 'admin@example.com'
 letsencrypt_all_script_path: '/home/{{letsencrypt_user}}/issue-all.sh'
 letsencrypt_account_key_path: "/home/{{letsencrypt_user}}/account_key.pem"
 letsencrypt_cert_directory: "/home/{{letsencrypt_user}}/certs"
@@ -11,3 +11,4 @@ ruby_version: 2.3.3
 nginx_default_proxy_read_timeout: 60s
 nginx_default_proxy_send_timeout: 60s
 nginx_default_client_max_body_size: 50M
+nginx_access_log_format: main

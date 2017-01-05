@@ -4,7 +4,6 @@
   become: yes
   become_user: "{{ rvm_user }}"
 
-
 - template:
     src: 'issue-all.sh'
     dest: '{{letsencrypt_all_script_path}}'
@@ -27,5 +26,4 @@
     job: "cd /home/letsencrypt && tar zcf /backup/letsencrypt-data.tar.gz account_key.pem certs"
     name: "letsencrypt-archive"
   name: "Add root-Cronjob: tar letsencrypt certificates and user-data to backup folder"
-  tags: [wip]
 

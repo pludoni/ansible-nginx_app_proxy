@@ -11,6 +11,18 @@
     dest: /etc/nginx/nginx-ssl.conf
   notify: reload nginx
 
+- file:
+    state: directory
+    path: "/var/log/nginx/{{item.name}}"
+  with_items: '{{routings}}'
+  name: "Create per-host log folders"
+
+- lineinfile:
+    dest: /etc/logrotate.d/nginx
+    regexp: "^/var/log/nginx"
+    line: "/var/log/nginx/*.log /var/log/nginx/*/*.log {"
+  name: "Enable Logrotate for per-host logfiles"
+
 - template:
     src: 'nginx_site.conf.j2'
     dest: '/etc/nginx/sites-available/{{item.name}}.conf'

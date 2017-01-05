@@ -17,6 +17,8 @@ server {
 {% if item.force_ssl is defined and item.force_ssl %}
   add_header Strict-Transport-Security "max-age=604800; preload" always;
 {% endif %}
+  access_log /var/log/nginx/{{item.name}}/access.log {{nginx_access_log_format}};
+  error_log /var/log/nginx/{{item.name}}/error.log;
 
   location / {
     proxy_pass http://{{item.target}}$request_uri;

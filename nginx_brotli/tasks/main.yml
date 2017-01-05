@@ -1,5 +1,10 @@
 ---
 - apt: pkg=python-selinux
+- apt:
+    purge: yes
+    state: absent
+    pkg: apache2
+  name: "Remove apache2 if already installed"
 
 - shell: nginx -V 2>&1 | grep ngx_brotli
   register: nginx_brotli_compiled

@@ -1,8 +1,8 @@
 ---
 - shell: >
     {{letsencrypt_all_script_path}}
-  sudo: yes
-  sudo_user: "{{ rvm_user }}"
+  become: yes
+  become_user: "{{ rvm_user }}"
   ignore_errors: true
   name: "Run letsencrypt-script now to issue new domains"
 

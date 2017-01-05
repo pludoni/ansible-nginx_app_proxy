@@ -1,3 +1,8 @@
+nginx_main_log_format: |
+  log_format main '$remote_addr - $http_x_forwarded_for - $remote_user [$time_local] '
+          '"$request_method $scheme://$host$request_uri $server_protocol" '
+          '$status $body_bytes_sent "$http_referer" '
+          '"$http_user_agent" $request_time';
 nginx_conf_d:
   gzip:
     - gzip on
@@ -17,8 +22,7 @@ nginx_conf_d:
     - proxy_set_header Host $http_host
     - proxy_set_header X-Forwarded-Proto $scheme
   log:
-    - |
-      log_format main '$http_x_forwarded_for - $remote_user [$time_local] "$host" "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" $request_time';
+    - "{{nginx_main_log_format}}"
 
 
 nginx_conf_extra: {}
