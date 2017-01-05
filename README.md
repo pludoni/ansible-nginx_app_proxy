@@ -19,7 +19,7 @@ This module consists of 2 independent submodules:
 ```yaml
 - hosts: router
   roles:
-  - role: nginx_app_proxy/nginx_brotli
+  - role: pludoni.nginx_app_proxy/nginx_brotli
     nginx_conf_extra:
       # create extra files under /etc/nginx/conf.d/brotli
       brotli:
@@ -39,7 +39,7 @@ All Brotli-options here: https://github.com/google/ngx_brotli
 ```yaml
 - hosts: router
   roles:
-  - role: nginx_app_proxy/letsencrypt
+  - role: pludoni.nginx_app_proxy/letsencrypt
     # for Letsencrypt registration, Letsencrypt will write you emails if your certificates are about to expire
     letsencrypt_email: youradmin@yourdomain.de
     routings:
