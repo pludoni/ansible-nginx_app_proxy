@@ -57,7 +57,7 @@ galaxy_info:
     versions:
      - xenial
      - yakkety
-     - zesty
+     # - zesty
   #  - all
   #  - lucid
   #  - maverick

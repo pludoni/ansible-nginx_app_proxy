@@ -21,13 +21,16 @@ This module consists of 2 independent submodules:
   roles:
   - role: nginx_app_proxy/nginx_brotli
     nginx_conf_extra:
-      # create extra files under /etc/nginx/conf.d/some_file
-      some_file:
+      # create extra files under /etc/nginx/conf.d/brotli
+      brotli:
         # there are already gzip and proxy headers enabled, just e.g.
-        - gzip on
-        - proxy_set_headers
+        - brotli on
+        - brotli_types text/plain text/css application/json application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript
 ```
 
+**Note** Brotli on-the-fly encoding is disabled by default. It will only be active if you enable the option in a conf.d/*.conf like shown above.
+
+All Brotli-options here: https://github.com/google/ngx_brotli
 
 ### letsencrypt
 
