@@ -1,6 +1,7 @@
 - stat:
     path: '/home/{{letsencrypt_user}}/account_key.pem'
   register: letsencrypt_already_seeded
+  name: "Check, if Letsencrypt account_key already exists"
 
 - debug:
     msg: "Seeding letsencrypt user with given seed file"

@@ -3,18 +3,21 @@
     {{ RUBY_PREFIX }} gem install letsencrypt-cli -v {{letsencrypt_gem_version}}
   become: yes
   become_user: "{{ rvm_user }}"
+  name: "Install letsencrylt-cli Ruby gem"
 
 - template:
     src: 'issue-all.sh'
     dest: '{{letsencrypt_all_script_path}}'
     owner: '{{letsencrypt_user}}'
     mode: 0744
+  name: "Create cronjob script file"
 
 - file:
     state: directory
     path: '{{item}}'
     owner: '{{letsencrypt_user}}'
     recurse: true
+  name: "Create necessary folders for acme-challenge and certs"
   with_items:
     - '{{ letsencrypt_webroot_path }}'
     - '{{ letsencrypt_webroot_path }}/.well-known/acme-challenge'

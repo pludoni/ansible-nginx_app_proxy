@@ -1,7 +1,7 @@
 - name: create /etc/nginx/ssl directory
   file: path=/etc/nginx/ssl state=directory mode=0700
 
-- name: Generate /etc/nginx/ssl/dhparam.pem
+- name: "Generate /etc/nginx/ssl/dhparam.pem - Can take some time"
   shell: 'openssl dhparam -rand - 4096 >> /etc/nginx/ssl/dhparam.pem creates=/etc/nginx/ssl/dhparam.pem'
   notify: reload nginx
 

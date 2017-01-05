@@ -3,7 +3,7 @@ server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
 
-  {% if item.root is defined %}root {{item.root}};{% endif %}
+{% if item.root is defined %}  root {{item.root}};{% endif %}
   server_name {{item.domains | join(" ")}};
   client_max_body_size {% if item.client_max_body_size is defined %}{{item.client_max_body_size}}{% else %}{{nginx_default_client_max_body_size}}{% endif %};
   include /etc/nginx/nginx-ssl.conf;
@@ -14,13 +14,13 @@ server {
   ssl_certificate_key {{letsencrypt_cert_directory}}/{{item.domains[0]}}/key.pem;
   ssl_certificate {{letsencrypt_cert_directory}}/{{item.domains[0]}}/fullchain.pem;
 {% endif %}
-{% if item.force_ssl is defined and item.force_ssl %}
-  add_header Strict-Transport-Security "max-age=604800; preload" always;
-{% endif %}
   access_log /var/log/nginx/{{item.name}}/access.log {{nginx_access_log_format}};
   error_log /var/log/nginx/{{item.name}}/error.log;
 
   location / {
+    {% if item.force_ssl is defined and item.force_ssl %}
+    add_header Strict-Transport-Security "max-age={{hsts_max_age}}; includeSubDomains {% if hsts_preload %}preload{% endif %}" always;
+    {% endif %}
     proxy_pass http://{{item.target}}$request_uri;
     proxy_set_header Host $http_host;
     proxy_set_header X-Real-IP  $remote_addr;

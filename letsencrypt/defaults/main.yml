@@ -12,3 +12,5 @@ nginx_default_proxy_read_timeout: 60s
 nginx_default_proxy_send_timeout: 60s
 nginx_default_client_max_body_size: 50M
 nginx_access_log_format: main
+hsts_max_age: 300
+hsts_preload: false
