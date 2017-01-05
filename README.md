@@ -76,3 +76,9 @@ This module consists of 2 independent submodules:
   * ``letsencrypt_seed_file: "{{playbook_dir}}/files/letsencrypt-data.tar.gz"``
   * It will uploaded/unzipped once.
 
+## Caveats
+
+* Uses SSL local session cache, so if you have more than 40.000 clients / 10minute window, that cache will be empty. Then switching to session tickets would help, or reducing that timeout in ``letsencrypt/templates/nginx-ssl.conf``
+* This router doesnt add security headers X-Frame-Options or Content-Type Options by default. For our uses, we need some apps that need to be embeddable and our app server add that header anyways.
+* No real "Load Balancer" at the moment. Target can only be one IP.
+* Uses the "Legacy config" from https://cipherli.st/, which still supports IE &lt; 9 and Android 2.3.
