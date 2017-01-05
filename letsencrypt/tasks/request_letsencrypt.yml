@@ -1,0 +1,27 @@
+---
+- shell: >
+    {{letsencrypt_all_script_path}}
+  sudo: yes
+  sudo_user: "{{ rvm_user }}"
+  ignore_errors: true
+  name: "Run letsencrypt-script now to issue new domains"
+
+- cron:
+    name: "letsencrypt_cronjob"
+    minute: "22"
+    hour: "4"
+    day: "2"
+    month: "*"
+    user: "{{letsencrypt_user}}"
+    job: "{{letsencrypt_all_script_path}} >> /home/{{letsencrypt_user}}/cron.log"
+  name: "Add Letsencrypt Cronjob"
+
+- cron:
+    name: "reload_nginx_after_letsencrypt"
+    minute: "30"
+    hour: "4"
+    day: "2"
+    month: "*"
+    user: "root"
+    job: "service nginx reload"
+  name: "Add Nginx reload Cronjob"

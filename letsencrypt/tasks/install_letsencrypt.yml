@@ -1,0 +1,31 @@
+---
+- shell: >
+    {{ RUBY_PREFIX }} gem install letsencrypt-cli -v {{letsencrypt_gem_version}}
+  become: yes
+  become_user: "{{ rvm_user }}"
+
+
+- template:
+    src: 'issue-all.sh'
+    dest: '{{letsencrypt_all_script_path}}'
+    owner: '{{letsencrypt_user}}'
+    mode: 0744
+
+- file:
+    state: directory
+    path: '{{item}}'
+    owner: '{{letsencrypt_user}}'
+    recurse: true
+  with_items:
+    - '{{ letsencrypt_webroot_path }}'
+    - '{{ letsencrypt_webroot_path }}/.well-known/acme-challenge'
+    - '{{ letsencrypt_cert_directory }}'
+
+- cron:
+    minute: "0"
+    hour: "10"
+    job: "cd /home/letsencrypt && tar zcf /backup/letsencrypt-data.tar.gz account_key.pem certs"
+    name: "letsencrypt-archive"
+  name: "Add root-Cronjob: tar letsencrypt certificates and user-data to backup folder"
+  tags: [wip]
+

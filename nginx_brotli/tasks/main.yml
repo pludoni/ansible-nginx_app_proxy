@@ -1,0 +1,23 @@
+---
+- apt: pkg=python-selinux
+
+- shell: nginx -V 2>&1 | grep ngx_brotli
+  register: nginx_brotli_compiled
+  ignore_errors: True
+  changed_when: No
+  name: "Check, if nginx has already compiled Brotli support"
+
+- shell: nginx -V 2>&1 | grep with-http_v2
+  register: nginx_http2_compiled
+  ignore_errors: True
+  changed_when: No
+  name: "Check, if nginx has already compiled http2 support"
+
+- set_fact:
+    nginx_http2_enabled: "{{nginx_http2_compiled.rc == 0 }}"
+
+- include: 'compile-nginx.yml'
+  when: nginx_brotli_compiled.rc != 0
+
+
+- include: 'config.yml'

@@ -1,0 +1,16 @@
+- stat:
+    path: '/home/{{letsencrypt_user}}/account_key.pem'
+  register: letsencrypt_already_seeded
+
+- debug:
+    msg: "Seeding letsencrypt user with given seed file"
+  when: "letsencrypt_already_seeded.stat.exists == false"
+
+- unarchive:
+    src: '{{letsencrypt_seed_file}}'
+    dest: /home/{{letsencrypt_user}}
+    creates: '/home/{{letsencrypt_user}}/account_key.pem'
+  become: yes
+  become_user: "{{letsencrypt_user}}"
+  when: "letsencrypt_already_seeded.stat.exists == false"
+

@@ -1,0 +1,17 @@
+---
+- name: "SSL sites | Copy site-templates"
+  template:
+    src: 'nginx_ssl_site.conf.j2'
+    dest: '/etc/nginx/sites-available/{{item.name}}_ssl.conf'
+  with_items: "{{routings}}"
+  when: item.ssl_crt is defined or (item.letsencrypt is defined and item.letsencrypt)
+  notify: reload nginx
+
+- name: "SSL sites | Enable templates"
+  file:
+    state: 'link'
+    dest: '/etc/nginx/sites-enabled/{{item.name}}_ssl'
+    src: '/etc/nginx/sites-available/{{item.name}}_ssl.conf'
+  with_items: "{{routings}}"
+  when: item.ssl_crt is defined or (item.letsencrypt is defined and item.letsencrypt)
+  notify: reload nginx

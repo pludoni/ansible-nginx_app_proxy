@@ -1,0 +1,30 @@
+#{{ ansible_managed }}
+server {
+  listen 80;
+  listen [::]:80;
+  server_name {{item.domains | join(" ")}};
+  client_max_body_size {% if item.client_max_body_size is defined %}{{item.client_max_body_size}}{% else %}{{nginx_default_client_max_body_size}}{% endif %};
+{% if item.letsencrypt is defined and item.letsencrypt %}
+  location /.well-known/acme-challenge {
+    alias {{letsencrypt_webroot_path}}/.well-known/acme-challenge;
+    default_type "text/plain";
+    try_files $uri =404;
+  }
+{% endif %}
+{% if item.force_ssl is defined and item.force_ssl %}
+  location / {
+    return 301 https://$host$request_uri;
+  }
+{% else %}
+  location / {
+    proxy_pass http://{{item.target}}$request_uri;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP  $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_buffers   256 4k;
+    proxy_max_temp_file_size  0k;
+    proxy_read_timeout {% if item.proxy_read_timeout is defined %}{{item.proxy_read_timeout}}{% else %}{{nginx_default_proxy_read_timeout}}{% endif %};
+    proxy_send_timeout {% if item.proxy_send_timeout is defined %}{{item.proxy_send_timeout}}{% else %}{{nginx_default_proxy_send_timeout}}{% endif %};
+  }
+{% endif %}
+}

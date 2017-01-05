@@ -1,0 +1,27 @@
+- name: create /etc/nginx/ssl directory
+  file: path=/etc/nginx/ssl state=directory mode=0700
+
+- name: Generate /etc/nginx/ssl/dhparam.pem
+  shell: 'openssl dhparam -rand - 4096 >> /etc/nginx/ssl/dhparam.pem creates=/etc/nginx/ssl/dhparam.pem'
+  notify: reload nginx
+
+- name: Nginx SSL partial
+  template:
+    src: nginx-ssl.conf
+    dest: /etc/nginx/nginx-ssl.conf
+  notify: reload nginx
+
+- template:
+    src: 'nginx_site.conf.j2'
+    dest: '/etc/nginx/sites-available/{{item.name}}.conf'
+  with_items: '{{routings}}'
+  name: "Create all plain http sites"
+  # notify: reload nginx
+
+- file:
+    state: 'link'
+    dest: '/etc/nginx/sites-enabled/{{item.name}}'
+    src: '/etc/nginx/sites-available/{{item.name}}.conf'
+  with_items: '{{routings}}'
+  name: "Enable all plain http sites"
+  # notify: reload nginx

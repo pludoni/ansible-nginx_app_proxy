@@ -1,0 +1,21 @@
+---
+## Install letsencrypt ruby user and Gem
+- user:
+    name: '{{letsencrypt_user}}'
+    shell: /bin/bash
+    createhome: yes
+- include: rvm.yml
+- include: install_letsencrypt.yml
+- include: seed_letsencrypt.yml
+  when: letsencrypt_seed_file is defined
+
+# Configure sites
+- include: configure_sites.yml
+# Activate existing http sites
+- meta: flush_handlers
+  name: "Reload nginx now if necessary"
+
+- include: request_letsencrypt.yml
+- include: configure_ssl_sites.yml
+
+

@@ -1,0 +1,20 @@
+# additional ruby versions
+rvm_rubies: []
+# user that installs rvm
+rvm_user: '{{ letsencrypt_user }}'
+rvm_default: '{{ ruby_version }}'
+rvm_gpg_keys: '0x3804BB82D39DC0E3'
+rvm_gpg_key_server: 'hkp://pool.sks-keyservers.net' # 'hkp://keys.gnupg.net'
+rvm_gpg_key_alternative_url: 'https://rvm.io/mpapis.asc'
+rvm_packages:
+- curl
+- bison
+- build-essential # allow building native gems
+- zlib1g-dev
+- libssl-dev
+- libreadline6-dev
+- libxml2-dev
+- libgmp-dev
+- git-core
+rvm_install_gems:
+- bundler

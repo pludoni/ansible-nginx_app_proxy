@@ -1,0 +1,61 @@
+- git:
+    repo: "https://github.com/google/ngx_brotli.git"
+    dest: /opt/ngx_brotli
+    update: no
+  name: 'checkout nginx_brotli module to /opt'
+
+
+- apt_repository:
+    repo: "{{item}}"
+    state: present
+  name: 'add ubuntu src repositories'
+  with_items:
+    - deb-src http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} main
+    - deb-src http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}}-updates main
+
+- apt:
+    pkg: nginx
+    state: build-dep
+  name: "install nginx build dependencies"
+
+- file:
+    path: /opt/nginx
+    state: directory
+
+- command: apt-get source nginx
+  name: "unpack nginx source"
+  args:
+    chdir: /opt/nginx
+
+- find:
+    paths: '/opt/nginx'
+    recurse: no
+    file_type: directory
+  register: nginx_result
+
+- shell: "apt-cache policy nginx  | grep ubuntu |head -n1 | awk '{ print $2 }'"
+  register: nginx_full_version_result
+
+- set_fact:
+    nginx_folder: "{{nginx_result.files[0].path}}"
+    nginx_full_version: "{{nginx_full_version_result.stdout_lines[0]}}"
+
+- lineinfile:
+    dest: "{{nginx_folder}}/debian/rules"
+    insertbefore: ngx_http_substitutions_filter_module
+    line: "			--add-module=/opt/ngx_brotli \\"
+    state: present
+  name: "Append ngx_brotli to nginx-extras compile list"
+
+- command: dpkg-buildpackage -b
+  name: "Recompile nginx"
+  args:
+    chdir: "{{nginx_folder}}"
+    creates: "/opt/nginx/nginx-extras_{{nginx_full_version}}_amd64.deb"
+
+- command: >
+    dpkg -i  \
+      /opt/nginx/nginx_{{nginx_full_version}}_all.deb   \
+      /opt/nginx/nginx-common_{{nginx_full_version}}_all.deb \
+      /opt/nginx/nginx-extras_{{nginx_full_version}}_amd64.deb
+
