@@ -5,7 +5,7 @@ letsencrypt_email: 'admin@example.com'
 letsencrypt_all_script_path: '/home/{{letsencrypt_user}}/issue-all.sh'
 letsencrypt_account_key_path: "/home/{{letsencrypt_user}}/account_key.pem"
 letsencrypt_cert_directory: "/home/{{letsencrypt_user}}/certs"
-letsencrypt_gem_version: '0.4.1'
+letsencrypt_gem_version: '0.5.0.beta1'
 ruby_version: 2.3.3
 
 nginx_default_proxy_read_timeout: 60s
