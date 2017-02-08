@@ -16,7 +16,7 @@
   shell: "nginx -t"
   register: result
   changed_when: "result.rc != 0"
-  always_run: yes
+  check_mode: no
 
 - name: restart nginx - after config check
   service: name=nginx state=restarted
