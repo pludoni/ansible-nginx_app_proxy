@@ -14,3 +14,7 @@ nginx_default_client_max_body_size: 50M
 nginx_access_log_format: main
 hsts_max_age: 300
 hsts_preload: false
+
+## Add http basic auth user files
+nginx_basic_auth_users: []
+#   - { name: "admin", password: "password123", file: "/etc/nginx/redis-passwd" }

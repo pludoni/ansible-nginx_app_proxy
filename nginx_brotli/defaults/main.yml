@@ -31,3 +31,5 @@ nginx_conf_extra: {}
 nginx_worker_processes: 8
 nginx_worker_connections: 512
 nginx_keepalive: 65
+nginx_extra_modules:
+- "      --add-module=/opt/ngx_brotli \\"

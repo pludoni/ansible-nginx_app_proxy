@@ -4,7 +4,7 @@
 - apt: pkg=haveged
   name: 'install haveged for better entropy'
 
-- name: "Generate /etc/nginx/ssl/dhparam.pem - Can take some time"
+- name: "Generate /etc/nginx/ssl/dhparam.pem - Can take a long time (~10min)"
   shell: 'openssl dhparam -rand - 4096 >> /etc/nginx/ssl/dhparam.pem creates=/etc/nginx/ssl/dhparam.pem'
   notify: reload nginx
 

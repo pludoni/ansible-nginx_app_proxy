@@ -33,7 +33,7 @@
     file_type: directory
   register: nginx_result
 
-- shell: "apt-cache policy nginx  | grep ubuntu |head -n1 | awk '{ print $2 }'"
+- shell: "apt-cache madison nginx 2>/dev/null | grep -v passenger | grep nginx | awk '{ print $3 }' |sort -n | uniq | head -n 1"
   register: nginx_full_version_result
 
 - set_fact:
@@ -43,9 +43,10 @@
 - lineinfile:
     dest: "{{nginx_folder}}/debian/rules"
     insertbefore: ngx_http_substitutions_filter_module
-    line: "			--add-module=/opt/ngx_brotli \\"
+    line: "{{item}}"
     state: present
-  name: "Append ngx_brotli to nginx-extras compile list"
+  name: "Append custom modules"
+  with_items: "{{nginx_extra_modules | default([])}}"
 
 - command: dpkg-buildpackage -b
   name: "Recompile nginx"

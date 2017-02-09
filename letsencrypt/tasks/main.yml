@@ -9,6 +9,20 @@
 - include: seed_letsencrypt.yml
   when: letsencrypt_seed_file is defined
 
+
+- apt: pkg=python-passlib
+  when: "{{(nginx_basic_auth_users | length) > 0 }}"
+- htpasswd:
+    path: "{{item.file}}"
+    name: "{{item.name}}"
+    password: "{{item.password}}"
+    owner: root
+    group: www-data
+    mode: 0640
+  name: 'nginx | create passwd files for basic auth protection'
+  with_items: "{{nginx_basic_auth_users}}"
+
+
 # Configure sites
 - include: configure_sites.yml
 # Activate existing http sites

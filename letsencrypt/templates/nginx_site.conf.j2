@@ -19,6 +19,9 @@ server {
   }
 {% else %}
   location / {
+    {% if item.http_basic_auth_section is defined %}
+    {{item.http_basic_auth_section}}
+    {% endif %}
     proxy_pass http://{{item.target}}$request_uri;
     proxy_set_header Host $http_host;
     proxy_set_header X-Real-IP  $remote_addr;

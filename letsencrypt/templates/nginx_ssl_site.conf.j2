@@ -18,6 +18,9 @@ server {
   error_log /var/log/nginx/{{item.name}}/error.log;
 
   location / {
+    {% if item.http_basic_auth_section is defined %}
+    {{item.http_basic_auth_section}}
+    {% endif %}
     {% if item.force_ssl is defined and item.force_ssl %}
     add_header Strict-Transport-Security "max-age={{hsts_max_age}}; includeSubDomains {% if hsts_preload %}preload{% endif %}" always;
     {% endif %}
