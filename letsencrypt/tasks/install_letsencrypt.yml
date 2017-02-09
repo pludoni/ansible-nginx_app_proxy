@@ -1,9 +1,19 @@
 ---
 - shell: >
+    {{ RUBY_PREFIX }} gem list -i letsencrypt-cli -v {{letsencrypt_gem_version}}
+  changed_when: false
+  ignore_errors: true
+  become: yes
+  become_user: "{{ rvm_user }}"
+  register: letsencrypt_installation
+  name: "Check if letsencrylt-cli Ruby gem is installed"
+
+- shell: >
     {{ RUBY_PREFIX }} gem install letsencrypt-cli -v {{letsencrypt_gem_version}}
   become: yes
   become_user: "{{ rvm_user }}"
-  name: "Install letsencrylt-cli Ruby gem"
+  when: 'letsencrypt_installation.rc != 0'
+  name: "Install letsencrypt-cli Ruby gem"
 
 - template:
     src: 'issue-all.sh'

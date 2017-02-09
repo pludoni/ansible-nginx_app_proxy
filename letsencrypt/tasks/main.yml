@@ -25,11 +25,15 @@
 
 # Configure sites
 - include: configure_sites.yml
+  tags: [only_routings]
 # Activate existing http sites
 - meta: flush_handlers
+  tags: [only_routings]
   name: "Reload nginx now if necessary"
 
 - include: request_letsencrypt.yml
+  tags: [only_routings]
 - include: configure_ssl_sites.yml
+  tags: [only_routings]
 
 
