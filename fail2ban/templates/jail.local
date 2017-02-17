@@ -1,0 +1,35 @@
+[DEFAULT]
+
+ignoreip = {{fail2ban_ignoreip}}
+destemail = {{fail2ban_destmail}}
+sender = {{fail2ban_sender}}
+mta = sendmail
+
+[nginx-botsearch]
+enabled = true
+port     = http,https
+logpath  = /var/log/nginx/error.log
+maxretry = 2
+
+[nginx-noscript]
+enabled  = true
+port     = http,https
+filter   = nginx-noscript
+logpath  = /var/log/nginx/access.log
+           /var/log/nginx/*/access.log
+maxretry = 6
+
+[nginx-badbots]
+enabled  = true
+port     = http,https
+filter   = nginx-badbots
+logpath  = /var/log/nginx/access.log
+maxretry = 2
+
+[nginx-nohome]
+enabled  = true
+port     = http,https
+filter   = nginx-nohome
+logpath  = /var/log/nginx/access.log
+maxretry = 2
+

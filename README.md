@@ -85,3 +85,23 @@ All Brotli-options here: https://github.com/google/ngx_brotli
 * This router doesnt add security headers X-Frame-Options or Content-Type Options by default. For our uses, we need some apps that need to be embeddable and our app server add that header anyways.
 * No real "Load Balancer" at the moment. Target can only be one IP.
 * Uses the "Legacy config" from https://cipherli.st/, which still supports IE &lt; 9 and Android 2.3.
+
+## Fail2ban
+
+* There is a locally tested Fail2Ban jail config which can be run as another role:
+
+```yaml
+  - role: pludoni.nginx_app_proxy/fail2ban
+    letsencrypt_email: youradmin@yourdomain.de
+    fail2ban_ignoreip: 127.0.0.1/8 10.0.0.0/8
+    fail2ban_destmail: admin@localhost
+    fail2ban_sender: "{{fail2ban_destmail}}"
+    fail2ban_mta: "sendmail"
+```
+
+As the letsencrypt role modifies the nginx default access logs to include the hostname and more information, the fail2ban also needed some adjustments. Most important is the nginx-noscript Fail2Ban Jail, which will block out spider that are looking for missing scripts, like wp-admin, wp-login, phpmyadmin etc.
+
+There are another 2 jails, nginx-home (for blocking crawler that querying /~) and badbots, but those are less valuable.
+
+You can read more about this here:
+https://www.digitalocean.com/community/tutorials/how-to-protect-an-nginx-server-with-fail2ban-on-ubuntu-14-04

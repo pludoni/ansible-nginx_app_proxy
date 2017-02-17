@@ -1,0 +1,4 @@
+fail2ban_ignoreip: 127.0.0.1/8 10.0.0.0/8
+fail2ban_destmail: admin@localhost
+fail2ban_sender: "{{fail2ban_destmail}}"
+fail2ban_mta: "sendmail"

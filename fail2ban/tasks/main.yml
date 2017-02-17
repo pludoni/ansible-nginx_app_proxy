@@ -1,0 +1,27 @@
+- apt: pkg=fail2ban
+  name: "Install Fail2ban"
+
+- copy:
+    remote_src: true
+    src: '/etc/fail2ban/filter.d/apache-badbots.conf'
+    dest: '/etc/fail2ban/filter.d/nginx-badbots.conf'
+  notify: restart fail2ban
+  name: "Fail2Ban definition: nginx-badbots.conf"
+
+- template:
+    src: 'nginx-noscript.conf'
+    dest: '/etc/fail2ban/filter.d/nginx-noscript.conf'
+  notify: restart fail2ban
+  name: "Fail2Ban definition: nginx-noscript.conf"
+
+- template:
+    src: 'nginx-home.conf'
+    dest: '/etc/fail2ban/filter.d/nginx-nohome.conf'
+  notify: restart fail2ban
+  name: "Fail2Ban definition: nginx-nohome.conf"
+
+- template:
+    src: 'jail.local'
+    dest: /etc/fail2ban/jail.local
+  name: "Fail2Ban local config"
+

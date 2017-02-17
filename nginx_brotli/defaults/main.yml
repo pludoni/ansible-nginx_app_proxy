@@ -23,6 +23,7 @@ nginx_conf_d:
     - proxy_set_header X-Forwarded-Proto $scheme
   log:
     - "{{nginx_main_log_format}}"
+    - access_log /var/log/nginx/access.log main;
 
 
 nginx_conf_extra: {}
