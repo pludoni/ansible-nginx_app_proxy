@@ -32,7 +32,7 @@ This module consists of 2 independent submodules:
 
 All Brotli-options here: https://github.com/google/ngx_brotli
 
-### letsencrypt
+### letsencrypt / Router
 
 * Creates an unpriviliged user that will run the certificate request and have hold of the ssl certificates/keys
 
@@ -42,6 +42,9 @@ All Brotli-options here: https://github.com/google/ngx_brotli
   - role: pludoni.nginx_app_proxy/letsencrypt
     # for Letsencrypt registration, Letsencrypt will write you emails if your certificates are about to expire
     letsencrypt_email: youradmin@yourdomain.de
+    # create http basic htpasswd files
+    nginx_basic_auth_users:
+     - { name: "admin", password: "password123", file: "/etc/nginx/backend.passwd" }
     routings:
       # a list of http/https hosts which are bundled together
       - name: myservice1
@@ -64,6 +67,10 @@ All Brotli-options here: https://github.com/google/ngx_brotli
         proxy_read_timeout: 120s
         proxy_send_timeout: 120s
         client_max_body_size: 50M
+        # enable http basic auth with predefined password files
+        http_basic_auth_section: |
+            auth_basic           "closed site";
+            auth_basic_user_file /etc/nginx/backend.passwd;
         domains:
           - myservice1.de
           - www.myservice1.de
