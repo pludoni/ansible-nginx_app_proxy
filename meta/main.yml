@@ -4,7 +4,7 @@ galaxy_info:
   description: 'Nginx internet-facing router/proxy with up2date ssl termination, letsencrypt, HTTP/2'
   company: pludoni GmbH
   license: MIT
-  min_ansible_version: 1.8
+  min_ansible_version: 2.2
   platforms:
   #- name: EL
   #  versions:
