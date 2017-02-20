@@ -4,6 +4,9 @@ ignoreip = {{fail2ban_ignoreip}}
 destemail = {{fail2ban_destmail}}
 sender = {{fail2ban_sender}}
 mta = sendmail
+bantime = {{fail2ban_bantime}}
+findtime  = {{fail2ban_findtime}}
+action = %({{fail2ban_action}})s
 
 [nginx-botsearch]
 enabled = true
@@ -17,7 +20,7 @@ port     = http,https
 filter   = nginx-noscript
 logpath  = /var/log/nginx/access.log
            /var/log/nginx/*/access.log
-maxretry = 6
+maxretry = 3
 
 [nginx-badbots]
 enabled  = true

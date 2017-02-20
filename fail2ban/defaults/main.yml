@@ -1,4 +1,14 @@
 fail2ban_ignoreip: 127.0.0.1/8 10.0.0.0/8
 fail2ban_destmail: admin@localhost
-fail2ban_sender: "{{fail2ban_destmail}}"
+fail2ban_sender: "fail2ban@{{ansible_fqdn}}"
 fail2ban_mta: "sendmail"
+
+# actions can be:
+# 'action_'     - only ban
+# 'action_mw'   - ban and send mail to admin with  whois
+# 'action_mwl'  - ban and send mail to admin with log lines and whois
+# 'action_xarf' - ban and send abuse report
+fail2ban_action: 'action_mwl'
+
+fail2ban_findtime: 600
+fail2ban_bantime: 3600
