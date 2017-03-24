@@ -31,7 +31,7 @@
     dest: '/etc/nginx/sites-available/{{item.name}}.conf'
   with_items: '{{routings}}'
   name: "Create all plain http sites"
-  # notify: reload nginx
+  notify: reload nginx
 
 - file:
     state: 'link'
@@ -39,4 +39,4 @@
     src: '/etc/nginx/sites-available/{{item.name}}.conf'
   with_items: '{{routings}}'
   name: "Enable all plain http sites"
-  # notify: reload nginx
+  notify: reload nginx
