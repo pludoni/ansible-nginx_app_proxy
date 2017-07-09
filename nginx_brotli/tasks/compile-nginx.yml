@@ -33,7 +33,7 @@
     file_type: directory
   register: nginx_result
 
-- shell: "apt-cache madison nginx 2>/dev/null | grep -v passenger | grep nginx | awk '{ print $3 }' |sort -n | uniq | head -n 1"
+- shell: "apt-cache madison nginx 2>/dev/null | grep -v passenger | grep nginx | awk '{ print $3 }' |sort -V | uniq | head -n 1"
   register: nginx_full_version_result
 
 - set_fact:
