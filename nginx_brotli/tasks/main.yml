@@ -21,6 +21,15 @@
 - set_fact:
     nginx_http2_enabled: "{{nginx_http2_compiled.rc == 0 }}"
 
+- blockinfile:
+    dest: "/etc/apt/apt.conf.d/50unattended-upgrades"
+    insertafter: "Unattended-Upgrade::Package-Blacklist {"
+    block: |
+          "nginx";
+          "nginx-extras";
+          "nginx-common";
+  name: 'disable unattended upgrades for nginx'
+
 - include: 'compile-nginx.yml'
   when: nginx_brotli_compiled.rc != 0
 
