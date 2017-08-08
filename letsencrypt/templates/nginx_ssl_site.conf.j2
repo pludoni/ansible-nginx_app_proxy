@@ -16,6 +16,11 @@ server {
 {% endif %}
   access_log /var/log/nginx/{{item.name}}/access.log {{nginx_access_log_format}};
   error_log /var/log/nginx/{{item.name}}/error.log;
+{% if item.timeout is defined %}
+  client_header_timeout {{item.timeout}};
+  client_body_timeout {{item.timeout}};
+  send_timeout {{item.timeout}};
+{% endif %}
 
   location / {
     {% if item.http_basic_auth_section is defined %}
