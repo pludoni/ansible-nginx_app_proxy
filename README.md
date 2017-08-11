@@ -67,6 +67,12 @@ All Brotli-options here: https://github.com/google/ngx_brotli
         proxy_read_timeout: 120s
         proxy_send_timeout: 120s
         client_max_body_size: 50M
+        # chunked transfer encoding allowing (docker registry, upload etc.)
+        chunked_transfer: yes
+        # allow long upload
+        proxy_read_timeout: 900
+        # allow http upgrade
+        websocket: yes
         # enable http basic auth with predefined password files
         http_basic_auth_section: |
             auth_basic           "closed site";
