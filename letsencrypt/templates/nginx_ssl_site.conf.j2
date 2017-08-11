@@ -39,6 +39,10 @@ server {
     proxy_max_temp_file_size  0k;
     proxy_read_timeout {% if item.proxy_read_timeout is defined %}{{item.proxy_read_timeout}}{% else %}{{nginx_default_proxy_read_timeout}}{% endif %};
     proxy_send_timeout {% if item.proxy_send_timeout is defined %}{{item.proxy_send_timeout}}{% else %}{{nginx_default_proxy_send_timeout}}{% endif %};
+    {% if item.websocket is defined and item.websocket %}
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    {% endif %}
   }
 }
 
