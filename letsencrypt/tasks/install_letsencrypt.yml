@@ -21,6 +21,7 @@
     owner: '{{letsencrypt_user}}'
     mode: 0744
   name: "Create cronjob script file"
+  tags: [only_routings]
 
 - file:
     state: directory
