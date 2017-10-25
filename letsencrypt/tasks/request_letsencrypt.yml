@@ -4,7 +4,12 @@
   become: yes
   become_user: "{{ rvm_user }}"
   ignore_errors: true
+  register: output
   name: "Run letsencrypt-script now to issue new domains"
+
+- debug:
+    msg: "{{ output.stdout.split('\n') }}"
+  name: "Output from Letsencrypt process"
 
 - cron:
     name: "letsencrypt_cronjob"
