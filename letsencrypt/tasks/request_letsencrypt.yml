@@ -15,7 +15,7 @@
     name: "letsencrypt_cronjob"
     minute: "22"
     hour: "4"
-    day: "2,12,22"
+    day: "*"
     month: "*"
     user: "{{letsencrypt_user}}"
     job: "{{letsencrypt_all_script_path}} >> /home/{{letsencrypt_user}}/cron.log"
