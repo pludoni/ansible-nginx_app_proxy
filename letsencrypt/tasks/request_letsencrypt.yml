@@ -25,7 +25,8 @@
     name: "reload_nginx_after_letsencrypt"
     minute: "30"
     hour: "4"
-    day: "2,12,22"
+    day: "*"
+    weekday: '0'
     month: "*"
     user: "root"
     job: "service nginx reload"
