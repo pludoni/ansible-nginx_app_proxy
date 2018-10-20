@@ -14,6 +14,12 @@
     dest: /etc/nginx/nginx-ssl.conf
   notify: reload nginx
 
+- name: Nginx Block IPs Partial
+  template:
+    src: blockips.conf.j2
+    dest: /etc/nginx/conf.d/blockips.conf
+  notify: reload nginx
+
 - file:
     state: directory
     path: "/var/log/nginx/{{item.name}}"

@@ -30,8 +30,8 @@
           "nginx-common";
   name: 'disable unattended upgrades for nginx'
 
-- include: 'compile-nginx.yml'
-  when: nginx_brotli_compiled.rc != 0
+# - include: 'compile-nginx.yml'
+#   when: nginx_brotli_compiled.rc != 0
 
 
 - include: 'config.yml'
