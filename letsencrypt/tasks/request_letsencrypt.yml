@@ -28,5 +28,5 @@
     day: "2,12,22"
     month: "*"
     user: "root"
-    job: "service nginx reload"
+    job: "/usr/sbin/service nginx reload"
   name: "Add Nginx reload Cronjob"
