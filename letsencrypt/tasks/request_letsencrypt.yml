@@ -15,7 +15,7 @@
     name: "letsencrypt_cronjob"
     minute: "22"
     hour: "4"
-    day: "2,12,22"
+    day: "*"
     month: "*"
     user: "{{letsencrypt_user}}"
     job: "{{letsencrypt_all_script_path}} >> /home/{{letsencrypt_user}}/cron.log"
@@ -25,7 +25,8 @@
     name: "reload_nginx_after_letsencrypt"
     minute: "30"
     hour: "4"
-    day: "2,12,22"
+    day: "*"
+    weekday: '0'
     month: "*"
     user: "root"
     job: "/usr/sbin/service nginx reload"
