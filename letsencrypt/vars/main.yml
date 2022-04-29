@@ -4,7 +4,7 @@ rvm_rubies: []
 rvm_user: '{{ letsencrypt_user }}'
 rvm_default: '{{ ruby_version }}'
 rvm_gpg_keys: '0x3804BB82D39DC0E3'
-rvm_gpg_key_server: 'hkp://pool.sks-keyservers.net' # 'hkp://keys.gnupg.net'
+rvm_gpg_key_server: 'hkp://keyserver.ubuntu.com' # 'hkp://keys.gnupg.net'
 rvm_gpg_key_alternative_url: 'https://rvm.io/mpapis.asc'
 rvm_packages:
 - curl
